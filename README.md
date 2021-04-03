@@ -1,2 +1,2 @@
 # K-Means-From-Scratch
-k-means clustering from scratch for DS assignment.
+k-means clustering for 1 dimensional data from scratch for DS assignment.
