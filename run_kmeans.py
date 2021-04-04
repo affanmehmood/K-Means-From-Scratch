@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import matplotlib.pyplot as plt
 
 
 def calc_distance(x1, x2):
@@ -33,24 +34,36 @@ def predict(input_val, old_centroids):
 
 if __name__ == "__main__":
     K = 3
-    X = np.append(np.random.default_rng().uniform(1, 5, 200),
-                  [np.random.default_rng().uniform(300, 305, 200), np.random.default_rng().uniform(600, 605, 200)])
+    X = np.append(np.random.default_rng().uniform(1, 250, 200),
+                  [np.random.default_rng().uniform(300, 550, 200),
+                   np.random.default_rng().uniform(600, 850, 200)])
     centroids = []
     for i in random.sample(range(1, len(X)), K):
         centroids.append(X[i])
 
     centroids = np.array(centroids)
-    classified_centroids = np.array(find_closest_centroid(centroids, X))
 
     print("Old centroids", centroids)
     while True:
         oc = centroids
+
+        classified_centroids = np.array(find_closest_centroid(centroids, X))
         centroids = np.array(recalculate_centroids(x=X, total_centroids=K,
                                                    assigned_centroids=classified_centroids, old_centroids=centroids))
-        classified_centroids = np.array(find_closest_centroid(centroids, X))
         if np.array_equal(oc, centroids):
             break
     print("New centroids", centroids)
+
+    colors = ['r', 'g', 'b']
+    for n, y in enumerate(centroids):
+        plt.plot(y, 1, marker='x', color=colors[n], ms=15)
+        print("n, y", n, y)
+    for n in range(K):
+        ys = X[classified_centroids == n]
+        # xs = X[classified_centroids == n]
+        plt.scatter(ys, np.full(len(ys), 1), color=colors[n])
+    plt.title("Points by cluster")
+    plt.show()
 
     while True:
         print("The value belongs to number",
