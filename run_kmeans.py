@@ -35,20 +35,23 @@ if __name__ == "__main__":
     K = 3
     X = np.append(np.random.default_rng().uniform(1, 5, 200),
                   [np.random.default_rng().uniform(300, 305, 200), np.random.default_rng().uniform(600, 605, 200)])
-
     centroids = []
-    for i in random.sample(range(1, len(X)), 3):
+    for i in random.sample(range(1, len(X)), K):
         centroids.append(X[i])
 
     centroids = np.array(centroids)
     classified_centroids = np.array(find_closest_centroid(centroids, X))
 
-    print("Old centroids ", centroids)
-    for rcc in range(int(input("How many times you want to recalculate centroids? "))):
+    print("Old centroids", centroids)
+    while True:
+        oc = centroids
         centroids = np.array(recalculate_centroids(x=X, total_centroids=K,
                                                    assigned_centroids=classified_centroids, old_centroids=centroids))
         classified_centroids = np.array(find_closest_centroid(centroids, X))
-    print("New centroids ", centroids)
+        if np.array_equal(oc, centroids):
+            break
+    print("New centroids", centroids)
+
     while True:
         print("The value belongs to number",
               predict(int(input("Enter an int you want to predict ")), centroids), "centroid")
