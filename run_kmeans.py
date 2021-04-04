@@ -40,13 +40,11 @@ if __name__ == "__main__":
     centroids = []
     for i in random.sample(range(1, len(X)), K):
         centroids.append(X[i])
-
     centroids = np.array(centroids)
 
     print("Old centroids", centroids)
     while True:
         oc = centroids
-
         classified_centroids = np.array(find_closest_centroid(centroids, X))
         centroids = np.array(recalculate_centroids(x=X, total_centroids=K,
                                                    assigned_centroids=classified_centroids, old_centroids=centroids))
@@ -60,7 +58,6 @@ if __name__ == "__main__":
         print("n, y", n, y)
     for n in range(K):
         ys = X[classified_centroids == n]
-        # xs = X[classified_centroids == n]
         plt.scatter(ys, np.full(len(ys), 1), color=colors[n])
     plt.title("Points by cluster")
     plt.show()
